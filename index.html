@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Отзывы читателей книги «Завтра начинается сегодня»">
+<meta name="color-scheme" content="light dark">
+<title>Голоса читателей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<style>
+  :root {
+    --bg: #EEF1E6;
+    --bg-tint: #E4EAD9;
+    --surface: #FBFCF6;
+    --surface-2: #F4F7EC;
+    --line: #D6DEC8;
+    --ink: #1E2A1F;
+    --ink-2: #3E4F3D;
+    --muted: #6B7A64;
+    --accent: #2C7A57;
+    --accent-soft: #DCEDE1;
+    --accent-ink: #1C5A3E;
+    --honey: #C88A18;
+    --honey-soft: #F6E7C2;
+    --shadow: 0 1px 2px rgba(31,47,31,.05), 0 8px 24px -12px rgba(31,47,31,.18);
+    --on-accent: #FFFFFF;
+    --danger: #A8402A;
+    --radius: 14px;
+    --maxw: 1140px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A14;
+      --bg-tint: #1A211A;
+      --surface: #1D251D;
+      --surface-2: #232C22;
+      --line: #32402F;
+      --ink: #E9EFE1;
+      --ink-2: #C6D2BE;
+      --muted: #94A38D;
+      --accent: #63C295;
+      --accent-soft: #23372C;
+      --accent-ink: #9BDDBA;
+      --honey: #E5B84D;
+      --honey-soft: #3A3018;
+      --on-accent: #0F1A13;
+      --danger: #F0967C;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A14;
+    --bg-tint: #1A211A;
+    --surface: #1D251D;
+    --surface-2: #232C22;
+    --line: #32402F;
+    --ink: #E9EFE1;
+    --ink-2: #C6D2BE;
+    --muted: #94A38D;
+    --accent: #63C295;
+    --accent-soft: #23372C;
+    --accent-ink: #9BDDBA;
+    --honey: #E5B84D;
+    --honey-soft: #3A3018;
+    --on-accent: #0F1A13;
+    --danger: #F0967C;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Golos Text", "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- header ---------- */
+  header.top {
+    background: linear-gradient(180deg, var(--bg-tint) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding-block: 14px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600;
+  }
+  .brandmark svg { display: block; }
+  .langs { display: flex; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .langs button {
+    font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .02em;
+    border: 0; background: transparent; color: var(--muted);
+    padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  }
+  .langs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); }
+
+  .hero { padding-block: 26px 34px; display: grid; gap: 22px; grid-template-columns: minmax(0,1.4fr) minmax(0,.85fr); align-items: end; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; align-items: start; gap: 24px; } }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-ink); font-weight: 600; margin: 0 0 10px; }
+  h1 {
+    font-family: Literata, Georgia, "Times New Roman", serif;
+    font-weight: 600; font-size: clamp(30px, 5.2vw, 50px); line-height: 1.08;
+    margin: 0 0 12px; text-wrap: balance; letter-spacing: -.015em;
+  }
+  h1 .draft-title { color: var(--muted); font-style: italic; }
+  .lede { margin: 0; color: var(--ink-2); font-size: 17px; max-width: 54ch; }
+  .byline { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
+
+  .scorecard {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow); display: grid; gap: 14px;
+  }
+  .score-row { display: flex; align-items: baseline; gap: 12px; }
+  .score-num {
+    font-family: Literata, Georgia, serif; font-size: 42px; line-height: 1;
+    font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+  .score-meta { font-size: 13.5px; color: var(--muted); }
+  .bars { display: grid; gap: 5px; }
+  .bar { display: grid; grid-template-columns: 34px 1fr 30px; align-items: center; gap: 9px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .bar .track { height: 7px; border-radius: 99px; background: var(--bg-tint); overflow: hidden; }
+  .bar .fill { height: 100%; background: var(--honey); border-radius: 99px; transition: width .5s ease; }
+
+  .stars { display: inline-flex; gap: 2px; line-height: 0; }
+  .stars svg { width: 15px; height: 15px; display: block; }
+  .star-on { fill: var(--honey); }
+  .star-off { fill: none; stroke: var(--line); stroke-width: 1.6; }
+
+  /* ---------- write bar ---------- */
+  .writebar { padding-block: 0 4px; }
+  .cta {
+    font: inherit; font-weight: 600; font-size: 16px;
+    background: var(--accent); color: var(--on-accent); border: 0; border-radius: 999px;
+    padding: 13px 26px; cursor: pointer; box-shadow: var(--shadow);
+    transition: transform .15s ease, filter .15s ease;
+  }
+  .cta:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .cta:active { transform: translateY(0); }
+  .cta.ghost { background: transparent; color: var(--accent-ink); border: 1px solid var(--line); box-shadow: none; }
+  .cta.small { font-size: 14px; padding: 9px 16px; }
+
+  /* ---------- form ---------- */
+  .form-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 22px; margin-block: 18px 6px;
+  }
+  .form-card h2 { font-family: Literata, Georgia, serif; font-size: 22px; margin: 0 0 4px; font-weight: 600; }
+  .form-hint { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+  .fields { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 620px) { .fields { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 13px; font-weight: 600; color: var(--ink-2); letter-spacing: .01em; }
+  label .opt { font-weight: 400; color: var(--muted); }
+  input[type="text"], input[type="password"], textarea {
+    font: inherit; color: var(--ink); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; width: 100%;
+    resize: vertical;
+  }
+  input[type="text"]:focus-visible, input[type="password"]:focus-visible, textarea:focus-visible, button:focus-visible, .cell:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  textarea { min-height: 120px; line-height: 1.55; }
+  .starpick { display: flex; gap: 4px; align-items: center; }
+  .starpick button { background: none; border: 0; padding: 3px; cursor: pointer; line-height: 0; }
+  .starpick svg { width: 27px; height: 27px; }
+  .starpick .label { margin-left: 8px; font-size: 13.5px; color: var(--muted); }
+  .form-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+  .err { color: var(--danger); font-size: 13.5px; }
+
+  /* ---------- grid of cells ---------- */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    flex-wrap: wrap; margin: 34px 0 14px;
+  }
+  .section-head h2 { font-family: Literata, Georgia, serif; font-size: 25px; margin: 0; font-weight: 600; }
+  .count { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); align-items: start; }
+  .cell {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 17px; cursor: pointer; text-align: left; font: inherit; color: inherit;
+    display: grid; gap: 9px; width: 100%; transition: border-color .18s ease, transform .18s ease;
+  }
+  .cell:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .cell.open { grid-column: 1 / -1; cursor: default; box-shadow: var(--shadow); border-color: var(--accent); }
+  .cell.example { border-style: dashed; background: transparent; cursor: default; }
+  .cell-head { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    display: grid; place-items: center; font-weight: 600; font-size: 14px;
+    background: var(--accent-soft); color: var(--accent-ink);
+  }
+  .who { display: grid; gap: 1px; min-width: 0; }
+  .who .nm { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .who .mt { font-size: 12.5px; color: var(--muted); }
+  .cell-head .stars { margin-left: auto; flex: none; }
+  .snippet {
+    margin: 0; color: var(--ink-2); font-size: 15px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .cell-foot { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+  .chip-count {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 10px; font-size: 12.5px;
+  }
+  .more { margin-left: auto; color: var(--accent-ink); font-weight: 600; font-size: 13px; }
+  .badge-example {
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px;
+  }
+
+  .full-text { margin: 0; font-size: 16.5px; line-height: 1.65; color: var(--ink); white-space: pre-wrap; }
+  .full-text + .thread { margin-top: 6px; }
+
+  /* ---------- thread ---------- */
+  .thread { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 12px; }
+  .thread-title { font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0; }
+  .node { display: grid; gap: 7px; }
+  .node .body {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 11px 13px; display: grid; gap: 5px;
+  }
+  .node .meta { font-size: 12.5px; color: var(--muted); display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .node .meta b { color: var(--ink); font-size: 13.5px; font-weight: 600; }
+  .node p { margin: 0; font-size: 15px; white-space: pre-wrap; }
+  .kids { display: grid; gap: 12px; margin-left: 16px; padding-left: 14px; border-left: 2px solid var(--line); }
+  .replybtn { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; font-weight: 600; color: var(--accent-ink); cursor: pointer; justify-self: start; }
+  .replybox { background: var(--surface-2); border: 1px solid var(--accent); border-radius: 12px; padding: 12px; display: grid; gap: 9px; }
+  .quick { display: flex; gap: 7px; flex-wrap: wrap; }
+  .quick button {
+    font: inherit; font-size: 13px; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 12px; color: var(--ink-2);
+  }
+  .quick button:hover { border-color: var(--accent); color: var(--accent-ink); }
+  .replybox .row { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+  .replybox input[type="text"] { max-width: 220px; }
+
+  /* ---------- states ---------- */
+  .empty {
+    border: 1px dashed var(--line); border-radius: var(--radius); padding: 26px;
+    text-align: center; color: var(--muted); grid-column: 1 / -1;
+  }
+  .toast {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    background: var(--accent); color: var(--on-accent); padding: 12px 20px; border-radius: 999px;
+    font-weight: 600; font-size: 15px; box-shadow: var(--shadow); z-index: 50;
+  }
+  .notice {
+    background: var(--honey-soft); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 13px 16px; font-size: 14px; color: var(--ink-2); margin-block: 16px;
+  }
+
+  /* ---------- admin ---------- */
+  .admin {
+    background: var(--surface); border: 1px dashed var(--accent); border-radius: var(--radius);
+    padding: 18px; margin-block: 18px; display: grid; gap: 12px;
+  }
+  .admin h2 { margin: 0; font-size: 17px; font-family: Literata, Georgia, serif; font-weight: 600; }
+  .admin .fields { grid-template-columns: 1fr 1fr; }
+  .hide-btn { background: none; border: 0; font: inherit; font-size: 12.5px; color: var(--muted); cursor: pointer; text-decoration: underline; padding: 0; }
+  .cell.hidden-rev { opacity: .5; }
+
+  footer.foot { border-top: 1px solid var(--line); margin-top: 44px; padding-block: 24px 40px; color: var(--muted); font-size: 13.5px; }
+  footer.foot a { color: var(--accent-ink); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brandmark">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M2 3.5h5.2c.9 0 1.6.6 1.8 1.4V15c-.4-.7-1-1.1-1.8-1.1H2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+          <path d="M16 3.5h-5.2c-.9 0-1.6.6-1.8 1.4V15c.4-.7 1-1.1 1.8-1.1H16z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+        </svg>
+        <span id="brand-label">Книга и читатели</span>
+      </div>
+      <div class="langs" role="group" aria-label="Язык / Тіл">
+        <button type="button" id="lang-ru" data-lang="ru" aria-pressed="true">Рус</button>
+        <button type="button" id="lang-kk" data-lang="kk" aria-pressed="false">Қаз</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div>
+        <p class="eyebrow" id="hero-eyebrow">Вы дочитали книгу</p>
+        <h1 id="hero-title"></h1>
+        <p class="lede" id="hero-lede"></p>
+        <p class="byline" id="hero-byline"></p>
+      </div>
+      <div class="scorecard" id="scorecard"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="writebar">
+    <button type="button" class="cta" id="open-form"></button>
+  </div>
+
+  <div id="admin-slot"></div>
+  <div id="form-slot"></div>
+
+  <div class="section-head">
+    <h2 id="list-title"></h2>
+    <span class="count" id="list-count"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer class="foot">
+    <p id="foot-text"></p>
+  </footer>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script>
+
+(function () {
+  "use strict";
+
+  /* ===================== словарь ===================== */
+  var T = {
+    ru: {
+      brand: "Книга и читатели",
+      eyebrow: "Вы дочитали книгу",
+      titlePlaceholder: "Название книги",
+      lede: "Спасибо, что дошли до последней страницы. Расскажите, что вы почувствовали и что унесли с собой. Ваш отзыв увидят другие читатели и смогут ответить вам.",
+      bylinePrefix: "Автор:",
+      write: "Написать отзыв",
+      formTitle: "Ваш отзыв",
+      formHint: "Пишите свободно. Здесь нет правильных ответов, есть только ваше прочтение.",
+      name: "Имя",
+      city: "Город",
+      optional: "по желанию",
+      rating: "Ваша оценка",
+      text: "Что вы хотите сказать о книге",
+      textPh: "Мысль, которая осталась с вами после чтения...",
+      publish: "Опубликовать",
+      cancel: "Отмена",
+      needName: "Напишите, как вас зовут",
+      needText: "Напишите хотя бы пару слов",
+      needRating: "Поставьте оценку",
+      listTitle: "Отзывы читателей",
+      reviews: function (n) { return plural(n, "отзыв", "отзыва", "отзывов"); },
+      comments: function (n) { return plural(n, "ответ", "ответа", "ответов"); },
+      noComments: "Ответов пока нет",
+      expand: "Читать целиком",
+      collapse: "Свернуть",
+      reply: "Ответить",
+      replyPh: "Ваш ответ...",
+      send: "Отправить",
+      thread: "Обсуждение",
+      quick: ["Согласен с вами", "Я думаю иначе", "Давайте обсудим"],
+      empty: "Пока здесь тихо. Ваш отзыв может стать первым.",
+      exampleBadge: "Пример",
+      exampleNote: "Так будет выглядеть ячейка с отзывом. Примеры исчезнут, как только придет первый настоящий отзыв.",
+      avg: "Средняя оценка",
+      noScore: "Оценок пока нет",
+      thanks: "Спасибо! Ваш отзыв опубликован",
+      thanksReply: "Ответ отправлен",
+      foot: "Отзывы публикуются сразу и видны всем читателям книги.",
+      offline: "Сайт открыт без подключения к хранилищу: отзывы сейчас не сохраняются.",
+      hide: "Скрыть отзыв",
+      unhide: "Вернуть отзыв",
+      hiddenMark: "скрыт",
+      adminTitle: "Черновик: тексты страницы",
+      adminHint: "Эти поля видны только вам. Меняйте и сохраняйте, когда определитесь с названием.",
+      save: "Сохранить тексты",
+      saved: "Тексты сохранены",
+      noAccess: "Недостаточно прав для этого действия",
+      bookTitleLabel: "Название книги",
+      authorLabel: "Автор",
+      ledeLabel: "Текст приглашения",
+      loginTitle: "Вход для автора",
+      loginHint: "Введите почту и пароль, которые вы создали в Firebase",
+      email: "Почта",
+      password: "Пароль",
+      login: "Войти",
+      logout: "Выйти",
+      loginFailed: "Не получилось войти, проверьте почту и пароль"
+    },
+    kk: {
+      brand: "Кітап және оқырмандар",
+      eyebrow: "Сіз кітапты оқып шықтыңыз",
+      titlePlaceholder: "Кітаптың атауы",
+      lede: "Соңғы бетке дейін жеткеніңізге рахмет. Не сезінгеніңізді, өзіңізбен бірге не алып кеткеніңізді жазыңыз. Пікіріңізді басқа оқырмандар көреді және сізге жауап бере алады.",
+      bylinePrefix: "Авторы:",
+      write: "Пікір жазу",
+      formTitle: "Сіздің пікіріңіз",
+      formHint: "Еркін жазыңыз. Мұнда дұрыс жауап жоқ, тек сіздің оқығаныңыз бар.",
+      name: "Аты-жөні",
+      city: "Қала",
+      optional: "қаласаңыз",
+      rating: "Бағаңыз",
+      text: "Кітап туралы не айтқыңыз келеді",
+      textPh: "Оқығаннан кейін есіңізде қалған ой...",
+      publish: "Жариялау",
+      cancel: "Болдырмау",
+      needName: "Атыңызды жазыңыз",
+      needText: "Кемінде бірер сөз жазыңыз",
+      needRating: "Баға қойыңыз",
+      listTitle: "Оқырман пікірлері",
+      reviews: function (n) { return n + " пікір"; },
+      comments: function (n) { return n + " жауап"; },
+      noComments: "Әзірге жауап жоқ",
+      expand: "Толық оқу",
+      collapse: "Жию",
+      reply: "Жауап беру",
+      replyPh: "Сіздің жауабыңыз...",
+      send: "Жіберу",
+      thread: "Талқылау",
+      quick: ["Сізбен келісемін", "Мен басқаша ойлаймын", "Талқылайық"],
+      empty: "Әзірге тыныш. Сіздің пікіріңіз бірінші болуы мүмкін.",
+      exampleBadge: "Мысал",
+      exampleNote: "Пікір ұяшығы осылай көрінеді. Бірінші нағыз пікір келгенде мысалдар жоғалады.",
+      avg: "Орташа баға",
+      noScore: "Әзірге баға жоқ",
+      thanks: "Рахмет! Пікіріңіз жарияланды",
+      thanksReply: "Жауап жіберілді",
+      foot: "Пікірлер бірден жарияланады және барлық оқырманға көрінеді.",
+      offline: "Сайт қоймаға қосылмай ашылды: пікірлер қазір сақталмайды.",
+      hide: "Пікірді жасыру",
+      unhide: "Пікірді қайтару",
+      hiddenMark: "жасырылған",
+      adminTitle: "Нобай: беттің мәтіндері",
+      adminHint: "Бұл өрістерді тек сіз көресіз. Атауын анықтаған соң өзгертіп сақтаңыз.",
+      save: "Мәтіндерді сақтау",
+      saved: "Мәтіндер сақталды",
+      noAccess: "Бұл әрекетке құқық жеткіліксіз",
+      bookTitleLabel: "Кітаптың атауы",
+      authorLabel: "Авторы",
+      ledeLabel: "Шақыру мәтіні",
+      loginTitle: "Автор кіруі",
+      loginHint: "Firebase-те жасаған поштаңыз мен құпиясөзіңізді енгізіңіз",
+      email: "Пошта",
+      password: "Құпиясөз",
+      login: "Кіру",
+      logout: "Шығу",
+      loginFailed: "Кіру сәтсіз, пошта мен құпиясөзді тексеріңіз"
+    }
+  };
+
+  function plural(n, one, few, many) {
+    var m10 = n % 10, m100 = n % 100;
+    var w = (m10 === 1 && m100 !== 11) ? one
+      : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) ? few : many;
+    return n + " " + w;
+  }
+
+  /* ===================== состояние ===================== */
+  var DEFAULT_TITLE = "Завтра начинается сегодня";
+
+  var S = {
+    lang: "ru",
+    db: null,
+    reviews: [],
+    comments: [],
+    moderation: {},
+    settings: { title: DEFAULT_TITLE, author: "", lede: "" },
+    open: {},
+    replyTo: null,
+    draft: { name: "", text: "" },
+    form: { open: false, name: "", city: "", rating: 0, text: "", error: "" },
+    admin: /(^|[#&])admin\b/.test(location.hash),
+    authed: false,
+    ready: false
+  };
+
+  try {
+    var savedLang = localStorage.getItem("book-reviews-lang");
+    if (savedLang === "kk" || savedLang === "ru") S.lang = savedLang;
+  } catch (e) {}
+
+  function t() { return T[S.lang]; }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function initials(n) {
+    var p = String(n || "?").trim().split(/\s+/);
+    return ((p[0] || "?")[0] + (p[1] ? p[1][0] : "")).toUpperCase();
+  }
+  function starsHTML(v, size) {
+    var out = '<span class="stars" aria-label="' + v + ' из 5">';
+    for (var i = 1; i <= 5; i++) {
+      out += '<svg viewBox="0 0 20 20"' + (size ? ' style="width:' + size + 'px;height:' + size + 'px"' : "") + ' aria-hidden="true">' +
+        '<path class="' + (i <= v ? "star-on" : "star-off") + '" d="M10 1.8l2.4 5.2 5.6.7-4.1 3.9 1.1 5.6L10 14.5 5 17.2l1.1-5.6L2 7.7l5.6-.7z"></path></svg>';
+    }
+    return out + "</span>";
+  }
+  function when(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d)) return "";
+    var mr = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+    var mk = ["қаң", "ақп", "нау", "сәу", "мам", "мау", "шіл", "там", "қыр", "қаз", "қар", "жел"];
+    var m = S.lang === "kk" ? mk : mr;
+    return d.getDate() + " " + m[d.getMonth()] + " " + d.getFullYear();
+  }
+  function toast(msg) {
+    var el = document.createElement("div");
+    el.className = "toast";
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(function () { el.remove(); }, 3200);
+  }
+
+  /* ===================== примеры (видны, пока нет отзывов) ===================== */
+  var EXAMPLES = {
+    ru: [
+      { name: "Читатель", city: "Алматы", rating: 5, text: "Здесь появится первый настоящий отзыв. В свернутом виде видно имя, оценка и первые строки, а по нажатию ячейка раскрывается на всю ширину вместе с обсуждением." },
+      { name: "Читательница", city: "Астана", rating: 4, text: "А здесь второй. Под каждым отзывом растет своя ветка: можно согласиться, поспорить или предложить обсудить, и ответы складываются друг под другом." }
+    ],
+    kk: [
+      { name: "Оқырман", city: "Алматы", rating: 5, text: "Мұнда бірінші нағыз пікір пайда болады. Жиналған күйінде аты, бағасы және алғашқы жолдары көрінеді, басқанда ұяшық талқылаумен бірге толық ашылады." },
+      { name: "Оқырман", city: "Астана", rating: 4, text: "Ал мұнда екіншісі. Әр пікірдің астында өз тармағы өседі: келісуге, дауласуға немесе талқылауға шақыруға болады." }
+    ]
+  };
+
+  /* ===================== рендер ===================== */
+  function visibleReviews() {
+    return S.reviews.filter(function (r) {
+      return (S.admin && S.authed) || !(S.moderation[r.id] && S.moderation[r.id].hidden);
+    });
+  }
+
+  function renderHeader() {
+    var L = t();
+    document.getElementById("brand-label").textContent = L.brand;
+    document.getElementById("hero-eyebrow").textContent = L.eyebrow;
+
+    var title = S.settings.title && S.settings.title.trim();
+    document.getElementById("hero-title").innerHTML = title
+      ? esc(title)
+      : '<span class="draft-title">' + esc(L.titlePlaceholder) + "</span>";
+
+    document.getElementById("hero-lede").textContent =
+      (S.settings.lede && S.settings.lede.trim()) || L.lede;
+
+    var by = document.getElementById("hero-byline");
+    by.textContent = S.settings.author ? L.bylinePrefix + " " + S.settings.author : "";
+
+    document.getElementById("open-form").textContent = L.write;
+    document.getElementById("list-title").textContent = L.listTitle;
+    document.getElementById("foot-text").textContent = S.db ? L.foot : L.offline;
+
+    document.getElementById("lang-ru").setAttribute("aria-pressed", S.lang === "ru");
+    document.getElementById("lang-kk").setAttribute("aria-pressed", S.lang === "kk");
+
+    var list = visibleReviews();
+    document.getElementById("list-count").textContent = list.length ? L.reviews(list.length) : "";
+
+    // карточка рейтинга
+    var L2 = t(), sc = document.getElementById("scorecard"), n = list.length;
+    if (!n) {
+      sc.innerHTML = '<div class="score-row"><span class="score-num">–</span><span class="score-meta">' +
+        esc(L2.noScore) + "</span></div>" + '<div class="score-meta">' + esc(L2.empty) + "</div>";
+      return;
+    }
+    var sum = 0, dist = [0, 0, 0, 0, 0];
+    list.forEach(function (r) { var v = Math.max(1, Math.min(5, r.rating | 0)); sum += v; dist[v - 1]++; });
+    var avg = sum / n;
+    var bars = "";
+    for (var i = 5; i >= 1; i--) {
+      bars += '<div class="bar"><span>' + i + " ★</span><span class=\"track\"><span class=\"fill\" style=\"width:" +
+        Math.round((dist[i - 1] / n) * 100) + '%"></span></span><span>' + dist[i - 1] + "</span></div>";
+    }
+    sc.innerHTML =
+      '<div class="score-row"><span class="score-num">' + avg.toFixed(1).replace(".", ",") + "</span>" +
+      "<span>" + starsHTML(Math.round(avg)) + '<div class="score-meta">' + esc(L2.avg) + " · " + esc(L2.reviews(n)) + "</div></span></div>" +
+      '<div class="bars">' + bars + "</div>";
+  }
+
+  function commentsOf(reviewId) {
+    return S.comments.filter(function (c) { return c.reviewId === reviewId; });
+  }
+
+  function threadHTML(reviewId) {
+    var L = t(), all = commentsOf(reviewId);
+    function branch(parentId, depth) {
+      var kids = all.filter(function (c) { return (c.parentId || "") === parentId; })
+        .sort(function (a, b) { return String(a.createdAt).localeCompare(String(b.createdAt)); });
+      if (!kids.length) return "";
+      var html = "";
+      kids.forEach(function (c) {
+        var isReplying = S.replyTo && S.replyTo.reviewId === reviewId && S.replyTo.parentId === c.id;
+        html += '<div class="node">' +
+          '<div class="body"><div class="meta"><b>' + esc(c.name) + "</b><span>" + esc(when(c.createdAt)) + "</span></div>" +
+          "<p>" + esc(c.text) + "</p></div>" +
+          '<button type="button" class="replybtn" data-reply="' + esc(reviewId) + '" data-parent="' + esc(c.id) + '">' + esc(L.reply) + "</button>" +
+          (isReplying ? replyBoxHTML() : "") +
+          (depth < 6 ? '<div class="kids">' + branch(c.id, depth + 1) + "</div>" : "") +
+          "</div>";
+      });
+      return html;
+    }
+    var rootReplying = S.replyTo && S.replyTo.reviewId === reviewId && S.replyTo.parentId === "";
+    var body = branch("", 0);
+    return '<div class="thread"><p class="thread-title">' + esc(L.thread) +
+      (all.length ? " · " + esc(L.comments(all.length)) : "") + "</p>" +
+      (body || '<p class="score-meta" style="margin:0">' + esc(L.noComments) + "</p>") +
+      (rootReplying ? replyBoxHTML() :
+        '<button type="button" class="cta ghost small" data-reply="' + esc(reviewId) + '" data-parent="">' + esc(L.reply) + "</button>") +
+      "</div>";
+  }
+
+  function replyBoxHTML() {
+    var L = t();
+    return '<div class="replybox">' +
+      '<div class="quick">' + L.quick.map(function (q) {
+        return '<button type="button" data-quick="' + esc(q) + '">' + esc(q) + "</button>";
+      }).join("") + "</div>" +
+      '<textarea id="reply-text" rows="3" placeholder="' + esc(L.replyPh) + '">' + esc(S.draft.text) + "</textarea>" +
+      '<div class="row"><input type="text" id="reply-name" placeholder="' + esc(L.name) + '" value="' + esc(S.draft.name) + '">' +
+      '<button type="button" class="cta small" id="reply-send">' + esc(L.send) + "</button>" +
+      '<button type="button" class="cta ghost small" id="reply-cancel">' + esc(L.cancel) + "</button></div></div>";
+  }
+
+  function cellHTML(r) {
+    var L = t(), open = !!S.open[r.id], cnt = commentsOf(r.id).length;
+    var hidden = S.moderation[r.id] && S.moderation[r.id].hidden;
+    var head = '<div class="cell-head"><span class="avatar">' + esc(initials(r.name)) + "</span>" +
+      '<span class="who"><span class="nm">' + esc(r.name) + '</span><span class="mt">' +
+      [r.city, when(r.createdAt), hidden ? L.hiddenMark : ""].filter(Boolean).map(esc).join(" · ") +
+      "</span></span>" + starsHTML(r.rating) + "</div>";
+
+    if (!open) {
+      return '<button type="button" class="cell' + (hidden ? " hidden-rev" : "") + '" data-open="' + esc(r.id) + '">' +
+        head + '<p class="snippet">' + esc(r.text) + "</p>" +
+        '<span class="cell-foot">' + (cnt ? '<span class="chip-count">' + esc(L.comments(cnt)) + "</span>" : "") +
+        '<span class="more">' + esc(L.expand) + " →</span></span></button>";
+    }
+    return '<div class="cell open' + (hidden ? " hidden-rev" : "") + '">' + head +
+      '<p class="full-text">' + esc(r.text) + "</p>" +
+      threadHTML(r.id) +
+      '<div class="cell-foot"><button type="button" class="replybtn" data-close="' + esc(r.id) + '">↑ ' + esc(L.collapse) + "</button>" +
+      (S.admin && S.authed ? '<button type="button" class="hide-btn" data-hide="' + esc(r.id) + '">' + esc(hidden ? L.unhide : L.hide) + "</button>" : "") +
+      "</div></div>";
+  }
+
+  function exampleHTML(ex, i) {
+    var L = t();
+    return '<div class="cell example"><div class="cell-head">' +
+      '<span class="avatar">' + esc(initials(ex.name)) + "</span>" +
+      '<span class="who"><span class="nm">' + esc(ex.name) + '</span><span class="mt">' + esc(ex.city) + "</span></span>" +
+      starsHTML(ex.rating) + "</div>" +
+      '<p class="snippet" style="-webkit-line-clamp:4">' + esc(ex.text) + "</p>" +
+      '<span class="cell-foot"><span class="badge-example">' + esc(L.exampleBadge) + "</span></span></div>";
+  }
+
+  function renderForm() {
+    var slot = document.getElementById("form-slot"), L = t(), F = S.form;
+    if (!F.open) { slot.innerHTML = ""; return; }
+    var picks = "";
+    for (var i = 1; i <= 5; i++) {
+      picks += '<button type="button" data-rate="' + i + '" aria-label="' + i + '">' +
+        '<svg viewBox="0 0 20 20" aria-hidden="true"><path class="' + (i <= F.rating ? "star-on" : "star-off") +
+        '" d="M10 1.8l2.4 5.2 5.6.7-4.1 3.9 1.1 5.6L10 14.5 5 17.2l1.1-5.6L2 7.7l5.6-.7z"></path></svg></button>';
+    }
+    slot.innerHTML = '<section class="form-card"><h2>' + esc(L.formTitle) + "</h2>" +
+      '<p class="form-hint">' + esc(L.formHint) + "</p>" +
+      '<div class="fields">' +
+      '<div class="field"><label for="f-name">' + esc(L.name) + '</label><input type="text" id="f-name" value="' + esc(F.name) + '"></div>' +
+      '<div class="field"><label for="f-city">' + esc(L.city) + ' <span class="opt">· ' + esc(L.optional) + '</span></label><input type="text" id="f-city" value="' + esc(F.city) + '"></div>' +
+      '<div class="field full"><label>' + esc(L.rating) + '</label><div class="starpick" id="f-stars">' + picks +
+      '<span class="label">' + (F.rating ? F.rating + " / 5" : "") + "</span></div></div>" +
+      '<div class="field full"><label for="f-text">' + esc(L.text) + '</label><textarea id="f-text" placeholder="' + esc(L.textPh) + '">' + esc(F.text) + "</textarea></div>" +
+      "</div>" +
+      '<div class="form-actions"><button type="button" class="cta" id="f-send">' + esc(L.publish) + "</button>" +
+      '<button type="button" class="cta ghost" id="f-cancel">' + esc(L.cancel) + "</button>" +
+      (F.error ? '<span class="err">' + esc(F.error) + "</span>" : "") + "</div></section>";
+  }
+
+  function renderAdmin() {
+    var slot = document.getElementById("admin-slot");
+    if (!S.admin) { slot.innerHTML = ""; return; }
+    var L = t(), st = S.settings;
+    if (!S.authed) {
+      slot.innerHTML = '<section class="admin"><h2>' + esc(L.loginTitle) + "</h2>" +
+        '<p class="form-hint" style="margin:0">' + esc(L.loginHint) + "</p>" +
+        '<div class="fields">' +
+        '<div class="field"><label for="l-mail">' + esc(L.email) + '</label><input type="text" id="l-mail" autocomplete="username"></div>' +
+        '<div class="field"><label for="l-pass">' + esc(L.password) + '</label><input type="password" id="l-pass" autocomplete="current-password"></div>' +
+        "</div>" +
+        '<div class="form-actions"><button type="button" class="cta small" id="l-in">' + esc(L.login) + "</button></div></section>";
+      return;
+    }
+    slot.innerHTML = '<section class="admin"><h2>' + esc(L.adminTitle) + "</h2>" +
+      '<p class="form-hint" style="margin:0">' + esc(L.adminHint) + "</p>" +
+      '<div class="fields">' +
+      '<div class="field"><label for="a-title">' + esc(L.bookTitleLabel) + '</label><input type="text" id="a-title" value="' + esc(st.title) + '"></div>' +
+      '<div class="field"><label for="a-author">' + esc(L.authorLabel) + '</label><input type="text" id="a-author" value="' + esc(st.author) + '"></div>' +
+      '<div class="field full"><label for="a-lede">' + esc(L.ledeLabel) + '</label><textarea id="a-lede" rows="3">' + esc(st.lede) + "</textarea></div>" +
+      "</div>" +
+      '<div class="form-actions"><button type="button" class="cta small" id="a-save">' + esc(L.save) + "</button>" +
+      '<button type="button" class="cta ghost small" id="l-out">' + esc(L.logout) + "</button></div></section>";
+  }
+
+  function renderGrid() {
+    var grid = document.getElementById("grid"), L = t(), list = visibleReviews();
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty">' + esc(L.empty) + "</div>" +
+        EXAMPLES[S.lang].map(exampleHTML).join("") +
+        '<div class="notice" style="grid-column:1/-1">' + esc(L.exampleNote) + "</div>";
+      return;
+    }
+    grid.innerHTML = list.map(cellHTML).join("");
+  }
+
+  function render() {
+    renderHeader();
+    renderAdmin();
+    renderForm();
+    renderGrid();
+    if (S.replyTo) {
+      var ta = document.getElementById("reply-text");
+      if (ta && document.activeElement !== ta) { ta.focus(); ta.selectionStart = ta.value.length; }
+    }
+  }
+
+  /* ===================== события ===================== */
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out");
+    if (!el) return;
+
+    if (el.dataset.lang) {
+      S.lang = el.dataset.lang;
+      try { localStorage.setItem("book-reviews-lang", S.lang); } catch (x) {}
+      return render();
+    }
+    if (el.id === "open-form") {
+      S.form.open = !S.form.open; S.form.error = "";
+      render();
+      if (S.form.open) { var f = document.getElementById("f-name"); if (f) f.focus(); }
+      return;
+    }
+    if (el.dataset.open) { S.open[el.dataset.open] = true; return render(); }
+    if (el.dataset.close) { delete S.open[el.dataset.close]; S.replyTo = null; return render(); }
+    if (el.dataset.reply !== undefined && el.dataset.parent !== undefined) {
+      captureDraft();
+      S.replyTo = { reviewId: el.dataset.reply, parentId: el.dataset.parent };
+      return render();
+    }
+    if (el.dataset.quick) {
+      var box = document.getElementById("reply-text");
+      if (box) { box.value = (box.value ? box.value.replace(/\s*$/, " ") : "") + el.dataset.quick + ". "; box.focus(); }
+      return;
+    }
+    if (el.dataset.rate) { captureForm(); S.form.rating = +el.dataset.rate; S.form.error = ""; return render(); }
+    if (el.id === "f-cancel") { S.form = { open: false, name: "", city: "", rating: 0, text: "", error: "" }; return render(); }
+    if (el.id === "f-send") return submitReview();
+    if (el.id === "reply-cancel") { S.replyTo = null; S.draft = { name: "", text: "" }; return render(); }
+    if (el.id === "reply-send") return submitComment();
+    if (el.dataset.hide) return toggleHide(el.dataset.hide);
+    if (el.id === "a-save") return saveSettings();
+    if (el.id === "l-in") return signIn();
+    if (el.id === "l-out") return firebase.auth().signOut();
+  });
+
+  function captureForm() {
+    var n = document.getElementById("f-name"), c = document.getElementById("f-city"), x = document.getElementById("f-text");
+    if (n) S.form.name = n.value;
+    if (c) S.form.city = c.value;
+    if (x) S.form.text = x.value;
+  }
+  function captureDraft() {
+    var n = document.getElementById("reply-name"), x = document.getElementById("reply-text");
+    if (n) S.draft.name = n.value;
+    if (x) S.draft.text = x.value;
+  }
+
+  function newId() {
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+  }
+
+  function submitReview() {
+    captureForm();
+    var L = t(), F = S.form;
+    if (!F.name.trim()) { F.error = L.needName; return render(); }
+    if (!F.rating) { F.error = L.needRating; return render(); }
+    if (F.text.trim().length < 3) { F.error = L.needText; return render(); }
+    if (!S.db) { F.error = L.offline; return render(); }
+
+    var doc = {
+      name: F.name.trim().slice(0, 60),
+      city: F.city.trim().slice(0, 40),
+      rating: F.rating,
+      text: F.text.trim().slice(0, 4000),
+      createdAt: new Date().toISOString(),
+      lang: S.lang
+    };
+    var id = newId();
+    S.form = { open: false, name: "", city: "", rating: 0, text: "", error: "" };
+    render();
+    S.db.doc("reviews/" + id).set(doc).then(function () {
+      S.open[id] = true;
+      toast(L.thanks);
+      render();
+    }).catch(function (err) {
+      S.form.open = true;
+      S.form.name = doc.name; S.form.city = doc.city; S.form.rating = doc.rating; S.form.text = doc.text;
+      S.form.error = err && err.code === "quota_exceeded" ? "Хранилище заполнено" : L.offline;
+      render();
+    });
+  }
+
+  function submitComment() {
+    captureDraft();
+    var L = t();
+    if (!S.replyTo || !S.db) return;
+    if (!S.draft.name.trim() || S.draft.text.trim().length < 2) {
+      toast(!S.draft.name.trim() ? L.needName : L.needText);
+      return;
+    }
+    var payload = {
+      reviewId: S.replyTo.reviewId,
+      parentId: S.replyTo.parentId || "",
+      name: S.draft.name.trim().slice(0, 60),
+      text: S.draft.text.trim().slice(0, 2000),
+      createdAt: new Date().toISOString()
+    };
+    S.replyTo = null;
+    S.draft = { name: payload.name, text: "" };
+    render();
+    S.db.doc("comments/" + newId()).set(payload).then(function () {
+      toast(L.thanksReply);
+    }).catch(function () { toast(t().offline); });
+  }
+
+  function toggleHide(id) {
+    if (!S.db) return;
+    var cur = S.moderation[id] && S.moderation[id].hidden;
+    S.db.doc("moderation/" + id).set({ hidden: !cur, at: new Date().toISOString() })
+      .catch(function () { toast(t().noAccess); });
+  }
+
+  function signIn() {
+    var L = t();
+    var mail = (document.getElementById("l-mail") || {}).value || "";
+    var pass = (document.getElementById("l-pass") || {}).value || "";
+    if (!mail || !pass) { toast(L.loginHint); return; }
+    firebase.auth().signInWithEmailAndPassword(mail.trim(), pass)
+      .catch(function () { toast(L.loginFailed); });
+  }
+
+  function saveSettings() {
+    if (!S.db) return;
+    var L = t();
+    var st = {
+      title: (document.getElementById("a-title") || {}).value || "",
+      author: (document.getElementById("a-author") || {}).value || "",
+      lede: (document.getElementById("a-lede") || {}).value || ""
+    };
+    S.settings = st;
+    render();
+    S.db.doc("settings/site").set(st).then(function () { toast(L.saved); })
+      .catch(function () { toast(L.noAccess); });
+  }
+
+  /* ===================== старт ===================== */
+  render();
+
+  // ---- Firebase ----
+  var FIREBASE_CONFIG = {
+    apiKey: "ЗАМЕНИТЬ",
+    authDomain: "ЗАМЕНИТЬ.firebaseapp.com",
+    projectId: "ЗАМЕНИТЬ",
+    storageBucket: "ЗАМЕНИТЬ.appspot.com",
+    messagingSenderId: "ЗАМЕНИТЬ",
+    appId: "ЗАМЕНИТЬ"
+  };
+
+  function startFirebase() {
+    if (typeof firebase === "undefined" || FIREBASE_CONFIG.apiKey === "ЗАМЕНИТЬ") {
+      render();
+      return;
+    }
+    firebase.initializeApp(FIREBASE_CONFIG);
+    var db = firebase.firestore();
+    S.db = db;
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      S.authed = !!user;
+      render();
+    });
+
+    db.collection("reviews").orderBy("createdAt", "desc").limit(300).onSnapshot(function (snap) {
+      S.reviews = snap.docs.map(function (d) {
+        var v = d.data() || {};
+        return {
+          id: d.id, name: v.name || "", city: v.city || "",
+          rating: Math.max(1, Math.min(5, parseInt(v.rating, 10) || 5)),
+          text: v.text || "", createdAt: v.createdAt || ""
+        };
+      });
+      render();
+    }, function () { render(); });
+
+    db.collection("comments").orderBy("createdAt", "asc").limit(1000).onSnapshot(function (snap) {
+      S.comments = snap.docs.map(function (d) {
+        var v = d.data() || {};
+        return {
+          id: d.id, reviewId: v.reviewId || "", parentId: v.parentId || "",
+          name: v.name || "", text: v.text || "", createdAt: v.createdAt || ""
+        };
+      });
+      render();
+    }, function () {});
+
+    db.collection("moderation").limit(500).onSnapshot(function (snap) {
+      var m = {};
+      snap.docs.forEach(function (d) { m[d.id] = d.data() || {}; });
+      S.moderation = m;
+      render();
+    }, function () {});
+
+    db.doc("settings/site").onSnapshot(function (d) {
+      var v = d.exists ? (d.data() || {}) : {};
+      S.settings = { title: v.title || DEFAULT_TITLE, author: v.author || "", lede: v.lede || "" };
+      render();
+    }, function () {});
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startFirebase);
+  } else {
+    startFirebase();
+  }
+})();
+</script>
+</body>
+</html>
