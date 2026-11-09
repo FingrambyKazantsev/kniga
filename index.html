@@ -16,13 +16,18 @@
   }
   img { max-width: 100%; }
   [hidden] { display: none !important; }
-.brand-logo {
-  display: block;
-  width: 180px;
-  max-width: 45vw;
-  height: auto;
-  margin: 0 auto 28px;
-}
+.brand-logo { display: block; height: 24px; width: auto; flex: none; }
+  .brand-logo--dark { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .brand-logo--light { display: none; }
+    :root:not([data-theme="light"]) .brand-logo--dark { display: block; }
+  }
+  :root[data-theme="dark"] .brand-logo--light { display: none; }
+  :root[data-theme="dark"] .brand-logo--dark { display: block; }
+  @media (max-width: 480px) {
+    .brand-logo { height: 20px; }
+    .brandmark #brand-label { display: none; }
+  }
 </style>
 <style>
   :root {
@@ -302,11 +307,8 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brandmark">
-        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-          <path d="M2 3.5h5.2c.9 0 1.6.6 1.8 1.4V15c-.4-.7-1-1.1-1.8-1.1H2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
-          <path d="M16 3.5h-5.2c-.9 0-1.6.6-1.8 1.4V15c.4-.7 1-1.1 1.8-1.1H16z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
-        </svg>
-        <img src="logo.svg" alt="BCC Life" class="brand-logo">
+        <img src="logo.svg" alt="BCC Life" class="brand-logo brand-logo--light">
+        <img src="logo-white.svg" alt="BCC Life" class="brand-logo brand-logo--dark">
         <span id="brand-label">Книга и читатели</span>
       </div>
       <div class="langs" role="group" aria-label="Язык / Тіл">
@@ -414,7 +416,10 @@
       password: "Пароль",
       login: "Войти",
       logout: "Выйти",
-      loginFailed: "Не получилось войти, проверьте почту и пароль"
+      loginFailed: "Не получилось войти, проверьте почту и пароль",
+      bookTitleKkLabel: "Название книги по-казахски",
+      metaTitle: "Голоса читателей",
+      metaDesc: function (b) { return "Отзывы читателей книги «" + b + "»"; }
     },
     kk: {
       brand: "Кітап және оқырмандар",
@@ -473,7 +478,10 @@
       password: "Құпиясөз",
       login: "Кіру",
       logout: "Шығу",
-      loginFailed: "Кіру сәтсіз, пошта мен құпиясөзді тексеріңіз"
+      loginFailed: "Кіру сәтсіз, пошта мен құпиясөзді тексеріңіз",
+      bookTitleKkLabel: "Кітаптың қазақша атауы",
+      metaTitle: "Оқырман дауыстары",
+      metaDesc: function (b) { return "«" + b + "» кітабы туралы оқырман пікірлері"; }
     }
   };
 
@@ -486,6 +494,7 @@
 
   /* ===================== состояние ===================== */
   var DEFAULT_TITLE = "Завтра начинается сегодня";
+  var DEFAULT_TITLE_KK = "Болашақ бүгіннен басталады";
 
   var S = {
     lang: "ru",
@@ -493,7 +502,7 @@
     reviews: [],
     comments: [],
     moderation: {},
-    settings: { title: DEFAULT_TITLE, author: "", lede: "" },
+    settings: { title: DEFAULT_TITLE, titleKk: DEFAULT_TITLE_KK, author: "", lede: "" },
     open: {},
     replyTo: null,
     draft: { name: "", text: "" },
@@ -509,6 +518,13 @@
   } catch (e) {}
 
   function t() { return T[S.lang]; }
+
+  // название книги на текущем языке: казахское, если оно задано, иначе русское
+  function bookTitle() {
+    var ru = (S.settings.title || "").trim();
+    var kk = (S.settings.titleKk || "").trim();
+    return S.lang === "kk" ? (kk || ru) : ru;
+  }
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -567,10 +583,16 @@
     document.getElementById("brand-label").textContent = L.brand;
     document.getElementById("hero-eyebrow").textContent = L.eyebrow;
 
-    var title = S.settings.title && S.settings.title.trim();
+    var title = bookTitle();
     document.getElementById("hero-title").innerHTML = title
       ? esc(title)
       : '<span class="draft-title">' + esc(L.titlePlaceholder) + "</span>";
+
+    // язык страницы, заголовок вкладки и описание для поиска и мессенджеров
+    document.documentElement.lang = S.lang === "kk" ? "kk" : "ru";
+    document.title = title ? L.metaTitle + " · " + title : L.metaTitle;
+    var md = document.querySelector('meta[name="description"]');
+    if (md) md.setAttribute("content", title ? L.metaDesc(title) : L.metaTitle);
 
     document.getElementById("hero-lede").textContent =
       (S.settings.lede && S.settings.lede.trim()) || L.lede;
@@ -727,6 +749,7 @@
       '<p class="form-hint" style="margin:0">' + esc(L.adminHint) + "</p>" +
       '<div class="fields">' +
       '<div class="field"><label for="a-title">' + esc(L.bookTitleLabel) + '</label><input type="text" id="a-title" value="' + esc(st.title) + '"></div>' +
+      '<div class="field"><label for="a-title-kk">' + esc(L.bookTitleKkLabel) + '</label><input type="text" id="a-title-kk" value="' + esc(st.titleKk || "") + '"></div>' +
       '<div class="field"><label for="a-author">' + esc(L.authorLabel) + '</label><input type="text" id="a-author" value="' + esc(st.author) + '"></div>' +
       '<div class="field full"><label for="a-lede">' + esc(L.ledeLabel) + '</label><textarea id="a-lede" rows="3">' + esc(st.lede) + "</textarea></div>" +
       "</div>" +
@@ -886,6 +909,7 @@
     var L = t();
     var st = {
       title: (document.getElementById("a-title") || {}).value || "",
+      titleKk: (document.getElementById("a-title-kk") || {}).value || "",
       author: (document.getElementById("a-author") || {}).value || "",
       lede: (document.getElementById("a-lede") || {}).value || ""
     };
@@ -954,7 +978,12 @@
 
     db.doc("settings/site").onSnapshot(function (d) {
       var v = d.exists ? (d.data() || {}) : {};
-      S.settings = { title: v.title || DEFAULT_TITLE, author: v.author || "", lede: v.lede || "" };
+      S.settings = {
+        title: v.title || DEFAULT_TITLE,
+        titleKk: v.titleKk || DEFAULT_TITLE_KK,
+        author: v.author || "",
+        lede: v.lede || ""
+      };
       render();
     }, function () {});
   }
