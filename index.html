@@ -104,6 +104,16 @@
     color: var(--muted); font-weight: 600;
   }
   .brandmark svg { display: block; }
+  .brandlogo { display: inline-flex; align-items: center; }
+  .brandlogo img { display: block; height: 24px; width: auto; max-width: 160px; }
+  .brandlogo .lg-dark { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .brandlogo .lg-light { display: none; }
+    :root:not([data-theme="light"]) .brandlogo .lg-dark { display: block; }
+  }
+  :root[data-theme="dark"] .brandlogo .lg-light { display: none; }
+  :root[data-theme="dark"] .brandlogo .lg-dark { display: block; }
+  .brandsep { width: 1px; height: 18px; background: var(--line); margin: 0 4px; }
   .langs { display: flex; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
   .langs button {
     font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .02em;
@@ -112,8 +122,8 @@
   }
   .langs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); }
 
-  .hero { padding-block: 26px 34px; display: grid; gap: 22px; grid-template-columns: minmax(0,1.4fr) minmax(0,.85fr); align-items: end; }
-  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; align-items: start; gap: 24px; } }
+  .hero { padding-block: 26px 34px; display: grid; gap: 28px; grid-template-columns: minmax(0,1.4fr) minmax(0,.9fr); align-items: center; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; align-items: start; gap: 22px; padding-block: 18px 28px; } }
   .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-ink); font-weight: 600; margin: 0 0 10px; }
   h1 {
     font-family: Literata, Georgia, "Times New Roman", serif;
@@ -308,6 +318,11 @@
   .annot { margin: 14px 0 0; color: var(--ink-2); font-size: 16.5px; max-width: 58ch; }
   .annot p { margin: 0 0 10px; }
   .annot p:last-child { margin-bottom: 0; }
+  .annot-more {
+    background: none; border: 0; padding: 0; margin-top: 8px; cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 600; color: var(--accent-ink);
+  }
+  .annot-more:hover { text-decoration: underline; }
 
   .reader {
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
@@ -361,6 +376,11 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brandmark">
+        <span class="brandlogo" id="brand-logo" hidden>
+          <img class="lg-light" src="logo.svg" alt="bcc life">
+          <img class="lg-dark" src="logo-white.svg" alt="bcc life">
+        </span>
+        <span class="brandsep" id="brand-sep" hidden></span>
         <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
           <path d="M2 3.5h5.2c.9 0 1.6.6 1.8 1.4V15c-.4-.7-1-1.1-1.8-1.1H2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
           <path d="M16 3.5h-5.2c-.9 0-1.6.6-1.8 1.4V15c.4-.7 1-1.1 1.8-1.1H16z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
@@ -483,6 +503,8 @@
       closeReader: "Свернуть",
       downloadBtn: "Скачать книгу",
       bookEyebrow: "Книга",
+      annotMore: "Подробнее о книге",
+      annotLess: "Свернуть",
       annotPlaceholder: "Здесь будет аннотация. Откройте адрес с #admin и впишите пару абзацев о том, для кого эта книга и зачем ее читать.",
       previewTitle: "Начало книги",
       readerEnd: "Дальше начинается самое интересное",
@@ -572,6 +594,8 @@
       closeReader: "Жию",
       downloadBtn: "Кітапты жүктеу",
       bookEyebrow: "Кітап",
+      annotMore: "Кітап туралы толығырақ",
+      annotLess: "Жию",
       annotPlaceholder: "Мұнда аннотация болады. #admin мекенжайын ашып, кітап кімге арналғанын жазыңыз.",
       previewTitle: "Кітаптың басы",
       readerEnd: "Ең қызығы әрі қарай басталады",
@@ -611,6 +635,11 @@
 
   /* ===================== состояние ===================== */
   var DEFAULT_TITLE = "Завтра начинается сегодня";
+  var DEFAULT_TITLE_KK = "Болашақ бүгіннен басталады";
+
+  var DEFAULT_ANNOT_RU = "Что Вы знаете о себе через 10 лет? А через 20 или 30? Знаете ли Вы этого человека? Может ли каждый из нас с уверенностью сказать, что тот человек из будущего будет жить хорошо? Что его дети будут жить хорошо, что его семья не будет ни в чём нуждаться?\n\nМы часто смотрим на то, как живут пенсионеры в европейских странах, в Америке или в Азии. Как много времени они тратят на себя, на путешествия, на отдых. И мы тоже хотим жить так, утешая себя тем, что выйдем на заслуженный отдых и уж тогда-то заживём по-настоящему! Но в реальности мы мысленно откладываем этот период подальше, полагаясь на то, что всё само собой сложится, и пенсия будет приходить на карту. Будет. Но сколько? Достаточно ли для того, чтобы съездить на отдых? Достаточно ли для того, чтобы отложить детям и внукам? Достаточно ли для того, чтобы не пришлось считать у кассы каждый теңге, потому что не хватает на продукты или лекарства, которых с каждым годом требуется всё больше?\n\nОб этом эта книга. Она не о том, как считать деньги к пенсии, хотя и об этом тоже. Она о спокойствии. Она об уверенности. Она о том, как не бояться будущего и что для этого Вы можете сделать прямо сейчас.\n\nВместе с героями этой книги, Алиханом и Динарой, Вы пройдёте по лабиринту чисел и расчётов, узнаете, из чего складывается Ваша пенсия и как она формируется, как грамотно распорядиться средствами, которые уже есть на Вашем пенсионном счёте.\n\nЭто издание адресовано всем без исключения: молодым и пожилым, тем, кто работает на себя, и тем, кто трудится как наёмный сотрудник, родителям и детям, бабушкам и дедушкам. Простой и ясный стиль книги, лёгкий авторский юмор не оставят равнодушным ни одного читателя!";
+
+  var DEFAULT_ANNOT_KK = "Осыдан 10 жылдан кейінгі өзіңіз туралы не білесіз? Ал 20 немесе 30 жылдан кейін ше?\n\nСіз ол адамды танисыз ба? Тіпті арамыздағы әрбір адам болашақтағы сол тұлғаның жақсы өмір сүретінін, балаларының ештеңеден таршылық көрмейтінін, отбасының еш нәрседен тарықпайтынын сеніммен айта ала ма?\n\nБіз Еуропа елдеріндегі, Америкадағы немесе Азиядағы зейнеткерлердің қалай өмір сүретініне жиі қызыға қараймыз. Олардың өздеріне, саяхатқа, демалысқа қаншалықты көп уақыт бөлетініне сүйсінеміз. Біз де еңбек сіңірген демалысқа шыққанда «міне, сонда нағыз өмір басталады» деп өзімізді жұбатып, дәл солай өмір сүргіміз келеді! Бірақ іс жүзінде бәрі өздігінен шешіледі, зейнетақы картаға түсіп тұрады деп арқаны кеңге салып, бұл кезеңді ойша арыға ысырып қоямыз. Түсуін түседі. Бірақ қанша? Демалысқа барып қайтуға жете ме? Балалар мен немерелерге жинап беруге жете ме? Жыл өткен сайын бағасы шарықтап бара жатқан азық-түлік пен дәрі-дәрмекті алуға ақша жетпей, касса түбінде әрбір теңгені санап тұрмауымызға кепіл бар ма?\n\nБұл кітап – дәл осы мәселе хақында. Бұл – зейнетке дейін қаражатты қалай жоспарлау керектігі туралы ғана емес (әйтсе де бұл жағы да ескерілген), ең алдымен, жан тыныштығы мен ертеңгі күнге деген сенімділік туралы кітап. Бұл – болашақтан қорықпаудың жолы мен ол үшін дәл қазір не істей алатыныңызды көрсететін еңбек.\n\nОсы кітаптың кейіпкерлері Әлихан және Динарамен бірге сіз сандар мен есептер лабиринтінен өтіп, зейнетақыңыздың неден құралатынын, қалай қалыптасатынын және шотыңыздағы қаражатты қалай сауатты басқаруға болатынын білесіз.\n\nБұл басылым жас айырмашылығы мен әлеуметтік мәртебесіне қарамастан баршаға: жастар мен аға буын өкілдеріне, өзін-өзі жұмыспен қамтығандар мен жалдамалы қызметкерлерге, ата-аналар мен балаларға, ата-әжелерге бірдей арналған. Кітаптың қарапайым әрі ұғынықты стилі, жеңіл авторлық юморы ешбір оқырманды бейжай қалдырмайды!";
 
   /* Текст предпросмотра: пролог и первая глава, взяты из PDF книги.
      Если в панели #admin заполнить поле предпросмотра, оно перекроет этот текст. */
@@ -643,13 +672,14 @@
     comments: [],
     moderation: {},
     settings: {
-      title: DEFAULT_TITLE, titleKk: "", author: "",
-      lede: "", ledeKk: "", annot: "", annotKk: "",
+      title: DEFAULT_TITLE, titleKk: DEFAULT_TITLE_KK, author: "",
+      lede: "", ledeKk: "", annot: DEFAULT_ANNOT_RU, annotKk: DEFAULT_ANNOT_KK,
       preview: PREVIEW_RU, previewKk: PREVIEW_KK, pdf: "book.pdf", pdfKk: "book-kk.pdf", cover: "cover.png", coverKk: "cover-kk.png"
     },
     stats: {},
     statsOn: false,
     readerOpen: false,
+    annotOpen: false,
     mode: /(^|[#&])otzyv\b/.test(location.hash) ? "review" : "book",
     open: {},
     replyTo: null,
@@ -945,12 +975,28 @@
     if (S.mode === "book") {
       var txt = (sv("annot") || "").trim();
       annot.hidden = false;
+      annot.className = "annot";
+      var parts = String(txt || "").replace(/\r/g, "").split(/\n\s*\n/).filter(function (x) { return x.trim(); });
+      var keep = (window.innerWidth || 1000) < 760 ? 1 : 2;
+      var shown = (!S.annotOpen && parts.length > keep) ? parts.slice(0, keep).join("\n\n") : txt;
       annot.innerHTML = txt
-        ? bookText(txt)
+        ? bookText(shown)
         : '<p style="color:var(--muted);font-style:italic">' + esc(L.annotPlaceholder) + "</p>";
+      var mb = document.getElementById("annot-more");
+      if (parts.length > keep) {
+        if (!mb) {
+          mb = document.createElement("button");
+          mb.type = "button"; mb.id = "annot-more"; mb.className = "annot-more";
+          annot.parentNode.insertBefore(mb, annot.nextSibling);
+        }
+        mb.textContent = S.annotOpen ? L.annotLess : L.annotMore;
+        mb.hidden = false;
+      } else if (mb) { mb.hidden = true; }
     } else {
       annot.hidden = true;
       annot.innerHTML = "";
+      var mb2 = document.getElementById("annot-more");
+      if (mb2) mb2.hidden = true;
     }
 
     var hasPreview = !!(sv("preview") || "").trim();
@@ -1110,7 +1156,7 @@
 
   /* ===================== события ===================== */
   document.addEventListener("click", function (e) {
-    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write");
+    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write,#annot-more");
     if (!el) return;
 
     if (el.dataset.lang) {
@@ -1143,6 +1189,7 @@
     if (el.id === "reply-send") return submitComment();
     if (el.dataset.hide) return toggleHide(el.dataset.hide);
     if (el.id === "a-save") return saveSettings();
+    if (el.id === "annot-more") { S.annotOpen = !S.annotOpen; return render(); }
     if (el.id === "btn-read") {
       S.readerOpen = !S.readerOpen;
       if (S.readerOpen) onceADay("read", function () { bumpStat("reads"); });
@@ -1341,6 +1388,25 @@
       .catch(function () { toast(L.noAccess); });
   }
 
+  /* логотип в шапке: показываем, только если файл есть */
+  (function () {
+    var box = document.getElementById("brand-logo"), sep = document.getElementById("brand-sep");
+    if (!box) return;
+    var light = box.querySelector(".lg-light");
+    if (!light) return;
+    function show() { box.hidden = false; if (sep) sep.hidden = false; }
+    function hide() { box.hidden = true; if (sep) sep.hidden = true; }
+    if (light.complete) { (light.naturalWidth ? show : hide)(); }
+    light.addEventListener("load", show);
+    light.addEventListener("error", hide);
+  })();
+
+  var rzT;
+  window.addEventListener("resize", function () {
+    clearTimeout(rzT);
+    rzT = setTimeout(render, 180);
+  });
+
   /* ===================== старт ===================== */
   render();
 
@@ -1406,12 +1472,12 @@
       var v = d.exists ? (d.data() || {}) : {};
       S.settings = {
         title: v.title || DEFAULT_TITLE,
-        titleKk: v.titleKk || "",
+        titleKk: v.titleKk || DEFAULT_TITLE_KK,
         author: v.author || "",
         lede: v.lede || "",
         ledeKk: v.ledeKk || "",
-        annot: v.annot || "",
-        annotKk: v.annotKk || "",
+        annot: v.annot || DEFAULT_ANNOT_RU,
+        annotKk: v.annotKk || DEFAULT_ANNOT_KK,
         preview: v.preview || PREVIEW_RU,
         previewKk: v.previewKk || PREVIEW_KK,
         pdf: v.pdf === undefined ? "book.pdf" : v.pdf,
