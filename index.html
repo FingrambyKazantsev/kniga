@@ -397,6 +397,32 @@ img { max-width: 100%; }
   .spark span.zero { background: var(--line); opacity: 1; height: 2px !important; }
   .spark-legend { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-top: 5px; }
 
+  /* ---------- анкета перед скачиванием ---------- */
+  .gate-back {
+    position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
+    background: rgba(12,34,40,.52); padding: 20px;
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    overflow: auto;
+  }
+  .gate {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,.45); padding: 24px; width: 100%; max-width: 440px;
+    display: grid; gap: 14px;
+  }
+  .gate h2 { font-family: Literata, Georgia, serif; font-size: 21px; margin: 0; font-weight: 600; }
+  .gate .hint { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .gate select {
+    font: inherit; color: var(--ink); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; width: 100%;
+  }
+  .gate .acts { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+  .gate .skip {
+    background: none; border: 0; padding: 4px 2px; font: inherit; font-size: 13.5px;
+    color: var(--muted); cursor: pointer; text-decoration: underline;
+  }
+  .gate .skip:hover { color: var(--ink-2); }
+
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -477,6 +503,7 @@ img { max-width: 100%; }
   <div id="admin-slot"></div>
   <div id="form-slot"></div>
   <div id="reader-slot"></div>
+  <div id="gate-slot"></div>
 
   <div class="section-head">
     <h2 id="list-title"></h2>
@@ -566,6 +593,26 @@ img { max-width: 100%; }
         return "Книгу скачали <b>" + nfmt(n) + "</b> " + plural(n, "раз", "раза", "раз").replace(/^\d+\s*/, "");
       },
       counterMinLabel: "Показывать счетчик скачиваний, начиная с числа (0 - не показывать)",
+      gateTitle: "Пара вопросов перед скачиванием",
+      gateHint: "Это поможет нам понять, кто читает книгу. Имя, телефон и почту не спрашиваем.",
+      gateRegion: "Область или город",
+      gateCity: "Город или село",
+      gateCityPh: "начните набирать",
+      gateAge: "Возраст",
+      gateField: "Сфера деятельности",
+      gatePick: "Выберите",
+      gateSend: "Скачать книгу",
+      gateSkip: "Пропустить и скачать",
+      regions: ["Астана", "Алматы", "Шымкент", "Абайская область", "Акмолинская область", "Актюбинская область", "Алматинская область", "Атырауская область", "Восточно-Казахстанская область", "Жамбылская область", "Жетысуская область", "Западно-Казахстанская область", "Карагандинская область", "Костанайская область", "Кызылординская область", "Мангистауская область", "Павлодарская область", "Северо-Казахстанская область", "Туркестанская область", "Улытауская область", "Я живу за пределами Казахстана"],
+      cities: ["Алматы", "Астана", "Шымкент", "Актобе", "Караганда", "Тараз", "Павлодар", "Усть-Каменогорск", "Семей", "Атырау", "Костанай", "Кызылорда", "Уральск", "Петропавловск", "Актау", "Темиртау", "Туркестан", "Кокшетау", "Талдыкорган", "Экибастуз", "Рудный", "Жезказган", "Жанаозен", "Балхаш", "Кентау", "Сатпаев", "Косшы", "Конаев", "Риддер", "Степногорск", "Щучинск", "Шахтинск", "Аксай", "Сарань", "Каскелен", "Арыс", "Шу", "Жаркент", "Текели", "Житикара", "Байконур", "Аральск", "Атбасар", "Аягоз", "Есик", "Каражал", "Каратау", "Курчатов", "Ленгер", "Сарыагаш", "Тайынша", "Талгар", "Ушарал", "Уштобе", "Хромтау", "Шалкар", "Шардара", "Шемонаиха", "Алтай", "Макинск", "Булаево", "Зайсан", "Кандыагаш", "Абай", "Шахтинск", "Лисаковск", "Аркалык", "Державинск", "Есиль", "Сергеевка", "Форт-Шевченко", "Эмба", "Темир", "Жетысай", "Ақсу", "Капшагай"],
+      ages: ["до 25", "25-34", "35-44", "45-54", "55-64", "65 и старше"],
+      fields: ["Владелец бизнеса", "Самозанятый", "Наемный сотрудник в частной компании", "Госслужащий", "Бюджетная сфера: учитель, врач, культура", "Военнослужащий или силовые структуры", "Студент", "Домохозяйка или в декрете", "Пенсионер", "Временно не работаю", "Другое"],
+      gateOn: "Спрашивать анкету перед скачиванием",
+      gateOnYes: "да", gateOnNo: "нет",
+      readersTitle: "Анкеты читателей",
+      readersCount: function (n) { return plural(n, "анкета", "анкеты", "анкет"); },
+      readersExport: "Выгрузить в Excel",
+      readersEmpty: "Анкет пока нет",
       bookEyebrow: "Книга",
       annotMore: "Подробнее о книге",
       annotLess: "Свернуть",
@@ -660,6 +707,26 @@ img { max-width: 100%; }
       downloadBtn: "Кітапты жүктеу",
       downloadedTimes: function (n) { return "Кітапты <b>" + nfmt(n) + "</b> рет жүктеп алды"; },
       counterMinLabel: "Жүктеу санауышын қай саннан бастап көрсету (0 - көрсетпеу)",
+      gateTitle: "Жүктеу алдында бірнеше сұрақ",
+      gateHint: "Бұл кітапты кім оқитынын түсінуге көмектеседі. Аты-жөні мен байланысты сұрамаймыз.",
+      gateRegion: "Облыс немесе қала",
+      gateCity: "Қала немесе ауыл",
+      gateCityPh: "теруді бастаңыз",
+      gateAge: "Жасыңыз",
+      gateField: "Қызмет саласы",
+      gatePick: "Таңдаңыз",
+      gateSend: "Кітапты жүктеу",
+      gateSkip: "Өткізіп жіберу",
+      regions: ["Астана", "Алматы", "Шымкент", "Абай облысы", "Ақмола облысы", "Ақтөбе облысы", "Алматы облысы", "Атырау облысы", "Шығыс Қазақстан облысы", "Жамбыл облысы", "Жетісу облысы", "Батыс Қазақстан облысы", "Қарағанды облысы", "Қостанай облысы", "Қызылорда облысы", "Маңғыстау облысы", "Павлодар облысы", "Солтүстік Қазақстан облысы", "Түркістан облысы", "Ұлытау облысы", "Мен Қазақстаннан тыс тұрамын"],
+      cities: ["Алматы", "Астана", "Шымкент", "Ақтөбе", "Қарағанды", "Тараз", "Павлодар", "Өскемен", "Семей", "Атырау", "Қостанай", "Қызылорда", "Орал", "Петропавл", "Ақтау", "Теміртау", "Түркістан", "Көкшетау", "Талдықорған", "Екібастұз", "Рудный", "Жезқазған", "Жаңаөзен", "Балқаш", "Кентау", "Сәтбаев", "Қосшы", "Қонаев", "Риддер", "Степногорск", "Щучинск", "Шахтинск", "Ақсай", "Саран", "Қаскелең", "Арыс", "Шу", "Жаркент", "Текелі", "Жітіқара", "Байқоңыр", "Арал", "Атбасар", "Аягөз", "Есік", "Қаражал", "Қаратау", "Курчатов", "Леңгір", "Сарыағаш", "Тайынша", "Талғар", "Үшарал", "Үштөбе", "Хромтау", "Шалқар", "Шардара", "Шемонаиха", "Алтай", "Макинск", "Бұлаево", "Зайсан", "Қандыағаш", "Абай", "Лисаковск", "Арқалық", "Державинск", "Есіл", "Сергеевка", "Форт-Шевченко", "Ембі", "Темір", "Жетісай", "Ақсу"],
+      ages: ["25-ке дейін", "25-34", "35-44", "45-54", "55-64", "65 және одан жоғары"],
+      fields: ["Бизнес иесі", "Өзін-өзі жұмыспен қамтыған адам", "Жеке компаниядағы жалдамалы қызметкер", "Мемлекеттік қызметші", "Бюджет саласы: мұғалім, дәрігер, мәдениет", "Әскери қызметші немесе құқық қорғау органдары", "Студент", "Үй шаруасындағы адам немесе декретте", "Зейнеткер", "Уақытша жұмыс істемеймін", "Басқа"],
+      gateOn: "Жүктеу алдында сауалнама сұрау",
+      gateOnYes: "иә", gateOnNo: "жоқ",
+      readersTitle: "Оқырман сауалнамалары",
+      readersCount: function (n) { return n + " сауалнама"; },
+      readersExport: "Excel-ге жүктеу",
+      readersEmpty: "Әзірге сауалнама жоқ",
       bookEyebrow: "Кітап",
       annotMore: "Кітап туралы толығырақ",
       annotLess: "Жию",
@@ -749,12 +816,15 @@ img { max-width: 100%; }
     settings: {
       title: DEFAULT_TITLE, titleKk: DEFAULT_TITLE_KK, author: "",
       lede: "", ledeKk: "", annot: DEFAULT_ANNOT_RU, annotKk: DEFAULT_ANNOT_KK,
-      preview: PREVIEW_RU, previewKk: PREVIEW_KK, pdf: "book.pdf", pdfKk: "book-kk.pdf", cover: COVER_RU, coverKk: COVER_KK, counterMin: 30
+      preview: PREVIEW_RU, previewKk: PREVIEW_KK, pdf: "book.pdf", pdfKk: "book-kk.pdf", cover: COVER_RU, coverKk: COVER_KK, counterMin: 30, gateOn: 1
     },
     stats: {},
     total: null,
     statsOn: false,
     readerOpen: false,
+    gate: null,
+    readers: [],
+    readersOn: false,
     annotOpen: false,
     mode: /(^|[#&])otzyv\b/.test(location.hash) ? "review" : "book",
     open: {},
@@ -1130,6 +1200,65 @@ img { max-width: 100%; }
       "</div></div></section>";
   }
 
+  function renderGate() {
+    var slot = document.getElementById("gate-slot"), L = t();
+    if (!S.gate) { slot.innerHTML = ""; return; }
+    function opts(list) {
+      return '<option value="">' + esc(L.gatePick) + "</option>" +
+        list.map(function (x) { return '<option value="' + esc(x) + '">' + esc(x) + "</option>"; }).join("");
+    }
+    slot.innerHTML = '<div class="gate-back" id="gate-back"><div class="gate" role="dialog" aria-modal="true">' +
+      "<h2>" + esc(L.gateTitle) + "</h2>" +
+      '<p class="hint">' + esc(L.gateHint) + "</p>" +
+      '<div class="field"><label for="g-region">' + esc(L.gateRegion) + '</label><select id="g-region">' + opts(L.regions) + "</select></div>" +
+      '<div class="field"><label for="g-city">' + esc(L.gateCity) + '</label>' +
+      '<input type="text" id="g-city" list="city-list" placeholder="' + esc(L.gateCityPh) + '" autocomplete="off">' +
+      '<datalist id="city-list">' + L.cities.map(function (c) { return '<option value="' + esc(c) + '"></option>'; }).join("") + "</datalist></div>" +
+      '<div class="field"><label for="g-age">' + esc(L.gateAge) + '</label><select id="g-age">' + opts(L.ages) + "</select></div>" +
+      '<div class="field"><label for="g-field">' + esc(L.gateField) + '</label><select id="g-field">' + opts(L.fields) + "</select></div>" +
+      '<div class="acts"><button type="button" class="cta" id="g-send">' + esc(L.gateSend) + "</button>" +
+      '<button type="button" class="skip" id="g-skip">' + esc(L.gateSkip) + "</button></div>" +
+      "</div></div>";
+    var c = document.getElementById("g-city");
+    if (c) c.focus();
+  }
+
+  function startDownload(url) {
+    try {
+      var a = document.createElement("a");
+      a.href = url; a.setAttribute("download", "");
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch (e) { location.href = url; }
+  }
+
+  function gateDone(save) {
+    var g = S.gate; if (!g) return;
+    var L = t();
+    if (save && S.db) {
+      /* в базу всегда кладeм русский вариант, чтобы выгрузка не делилась на два языка */
+      function ru(listName, value) {
+        if (!value) return "";
+        var i = (L[listName] || []).indexOf(value);
+        return i >= 0 ? (T.ru[listName][i] || value) : value;
+      }
+      var region = ru("regions", (document.getElementById("g-region") || {}).value || "");
+      var city = ((document.getElementById("g-city") || {}).value || "").trim().slice(0, 60);
+      var age = ru("ages", (document.getElementById("g-age") || {}).value || "");
+      var fld = ru("fields", (document.getElementById("g-field") || {}).value || "");
+      if (region || city || age || fld) {
+        S.db.doc("readers/" + newId()).set({
+          region: region, city: city, age: age, field: fld, lang: S.lang,
+          createdAt: new Date().toISOString()
+        }).catch(function () {});
+      }
+    }
+    try { localStorage.setItem("bk-gate", "1"); } catch (e) {}
+    var url = g.url;
+    S.gate = null;
+    render();
+    startDownload(url);
+  }
+
   function sumStat(field, days) {
     var total = 0;
     if (days === null) {
@@ -1179,6 +1308,55 @@ img { max-width: 100%; }
       '<p class="form-hint" style="margin:0">' + esc(L.statsHint) + "</p></section>";
   }
 
+  function renderReaders() {
+    if (!S.admin || !S.authed) return "";
+    var L = t(), n = S.readers.length;
+    if (!n) {
+      return '<section class="admin"><h2>' + esc(L.readersTitle) + "</h2>" +
+        '<p class="form-hint" style="margin:0">' + esc(L.readersEmpty) + "</p></section>";
+    }
+    function top(key, limit) {
+      var m = {};
+      S.readers.forEach(function (r) {
+        var v = (r[key] || "").trim();
+        if (v) m[v] = (m[v] || 0) + 1;
+      });
+      return Object.keys(m).sort(function (a, b) { return m[b] - m[a]; }).slice(0, limit)
+        .map(function (k) {
+          return '<div class="bar"><span style="width:auto;min-width:0">' + esc(k) +
+            '</span><span class="track"><span class="fill" style="width:' +
+            Math.round((m[k] / n) * 100) + '%"></span></span><span>' + m[k] + "</span></div>";
+        }).join("");
+    }
+    return '<section class="admin"><h2>' + esc(L.readersTitle) + " · " + esc(L.readersCount(n)) + "</h2>" +
+      '<div class="fields" style="grid-template-columns:1fr 1fr">' +
+      '<div><p class="langhead">' + esc(L.gateRegion) + '</p><div class="bars" style="margin-top:8px">' + top("region", 10) + "</div></div>" +
+      '<div><p class="langhead">' + esc(L.gateCity) + '</p><div class="bars" style="margin-top:8px">' + top("city", 10) + "</div></div>" +
+      '<div><p class="langhead">' + esc(L.gateField) + '</p><div class="bars" style="margin-top:8px">' + top("field", 8) + "</div></div>" +
+      '<div class="full"><p class="langhead">' + esc(L.gateAge) + '</p><div class="bars" style="margin-top:8px">' + top("age", 8) + "</div></div>" +
+      "</div>" +
+      '<div class="form-actions"><button type="button" class="cta small" id="r-csv">' + esc(L.readersExport) + "</button></div></section>";
+  }
+
+  function exportReaders() {
+    var L = t();
+    var rows = [["Дата", "Область или город", "Город или село", "Возраст", "Сфера деятельности", "Язык сайта"]];
+    S.readers.slice().sort(function (a, b) {
+      return String(b.createdAt).localeCompare(String(a.createdAt));
+    }).forEach(function (r) {
+      rows.push([when(r.createdAt), r.region || "", r.city || "", r.age || "", r.field || "", r.lang === "kk" ? "каз" : "рус"]);
+    });
+    var csv = rows.map(function (row) {
+      return row.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(";");
+    }).join("\r\n");
+    var blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "anketi-" + todayKey() + ".csv";
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+
   function renderAdmin() {
     var slot = document.getElementById("admin-slot");
     if (!S.admin) { slot.innerHTML = ""; return; }
@@ -1199,6 +1377,9 @@ img { max-width: 100%; }
       '<div class="field"><label for="a-author">' + esc(L.authorLabel) + '</label><input type="text" id="a-author" value="' + esc(st.author) + '"></div>' +
       '<div class="field"><label for="a-cover">' + esc(L.coverLabel) + '</label><input type="text" id="a-cover" value="' + esc(/^data:/.test(st.cover) ? "" : st.cover) + '" placeholder="' + esc(L.coverBuiltIn) + '"></div>' +
       '<div class="field full"><label for="a-cmin">' + esc(L.counterMinLabel) + '</label><input type="text" id="a-cmin" value="' + esc(st.counterMin) + '"></div>' +
+      '<div class="field full"><label for="a-gate" style="display:flex;align-items:center;gap:9px;cursor:pointer">' +
+      '<input type="checkbox" id="a-gate"' + (st.gateOn ? " checked" : "") + ' style="width:auto;margin:0">' +
+      esc(L.gateOn) + "</label></div>" +
       "</div>" +
       '<p class="langhead">' + esc(L.ruGroup) + "</p>" +
       '<div class="fields">' +
@@ -1220,7 +1401,7 @@ img { max-width: 100%; }
       '<p class="form-hint" style="margin:0">' + esc(L.pdfHint) + "</p>" +
       '<div class="form-actions"><button type="button" class="cta small" id="a-save">' + esc(L.save) + "</button>" +
       '<button type="button" class="cta ghost small" id="l-out">' + esc(L.logout) + "</button></div></section>" +
-      renderStats();
+      renderStats() + renderReaders();
   }
 
   function renderGrid() {
@@ -1239,6 +1420,7 @@ img { max-width: 100%; }
     renderAdmin();
     renderForm();
     renderReader();
+    renderGate();
     renderGrid();
     if (S.replyTo) {
       var ta = document.getElementById("reply-text");
@@ -1248,7 +1430,7 @@ img { max-width: 100%; }
 
   /* ===================== события ===================== */
   document.addEventListener("click", function (e) {
-    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write,#annot-more");
+    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write,#annot-more,#g-send,#g-skip,#r-csv");
     if (!el) return;
 
     if (el.dataset.lang) {
@@ -1295,8 +1477,18 @@ img { max-width: 100%; }
     if (el.id === "btn-dl" || el.id === "btn-dl2") {
       bumpStat("downloads");
       if (S.lang === "kk") bumpStat("downloadsKk");
-      return; // ссылку не перехватываем, браузер скачает сам
+      var asked = false;
+      try { asked = !!localStorage.getItem("bk-gate"); } catch (x) {}
+      if (S.settings.gateOn && !asked && S.db) {
+        e.preventDefault();
+        S.gate = { url: el.getAttribute("href") };
+        render();
+      }
+      return;
     }
+    if (el.id === "r-csv") return exportReaders();
+    if (el.id === "g-send") return gateDone(true);
+    if (el.id === "g-skip") return gateDone(false);
     if (el.id === "btn-write-top" || el.id === "btn-write2" || el.id === "head-write") {
       S.form.open = true; S.form.error = "";
       render();
@@ -1471,6 +1663,7 @@ img { max-width: 100%; }
       cover: (document.getElementById("a-cover") || {}).value || "",
       coverKk: (document.getElementById("a-coverKk") || {}).value || "",
       counterMin: parseInt((document.getElementById("a-cmin") || {}).value, 10) || 0,
+      gateOn: (document.getElementById("a-gate") || {}).checked ? 1 : 0,
       titleKk: (document.getElementById("a-titleKk") || {}).value || "",
       ledeKk: (document.getElementById("a-ledeKk") || {}).value || "",
       annotKk: (document.getElementById("a-annotKk") || {}).value || "",
@@ -1501,7 +1694,10 @@ img { max-width: 100%; }
     var wasAdmin = S.admin;
     S.admin = /(^|[#&])admin\b/.test(location.hash);
     S.mode = /(^|[#&])otzyv\b/.test(location.hash) ? "review" : "book";
-    if (S.admin && !wasAdmin && S.authed && S.db && !S.statsOn) subscribeStats(S.db);
+    if (S.admin && !wasAdmin && S.authed && S.db) {
+      if (!S.statsOn) subscribeStats(S.db);
+      if (!S.readersOn) subscribeReaders(S.db);
+    }
     render();
   });
 
@@ -1536,6 +1732,7 @@ img { max-width: 100%; }
     firebase.auth().onAuthStateChanged(function (user) {
       S.authed = !!user;
       if (user && S.admin && !S.statsOn) subscribeStats(db);
+      if (user && S.admin && !S.readersOn) subscribeReaders(db);
       render();
     });
 
@@ -1593,8 +1790,17 @@ img { max-width: 100%; }
         pdfKk: v.pdfKk === undefined ? "book-kk.pdf" : v.pdfKk,
         cover: v.cover ? v.cover : COVER_RU,
         coverKk: v.coverKk ? v.coverKk : COVER_KK,
-        counterMin: v.counterMin === undefined ? 30 : (parseInt(v.counterMin, 10) || 0)
+        counterMin: v.counterMin === undefined ? 30 : (parseInt(v.counterMin, 10) || 0),
+        gateOn: v.gateOn === undefined ? 1 : (parseInt(v.gateOn, 10) ? 1 : 0)
       };
+      render();
+    }, function () {});
+  }
+
+  function subscribeReaders(db) {
+    S.readersOn = true;
+    db.collection("readers").orderBy("createdAt", "desc").limit(3000).onSnapshot(function (snap) {
+      S.readers = snap.docs.map(function (d) { return d.data() || {}; });
       render();
     }, function () {});
   }
