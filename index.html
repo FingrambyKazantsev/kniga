@@ -423,6 +423,22 @@ img { max-width: 100%; }
   }
   .gate .skip:hover { color: var(--ink-2); }
 
+  .ac-wrap { position: relative; }
+  .gate .ac-list {
+    position: absolute; left: 0; right: 0; top: 100%; z-index: 5; margin-top: 4px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: 0 14px 34px -12px rgba(0,0,0,.35); overflow: hidden; max-height: 236px; overflow-y: auto;
+  }
+  .gate .ac-list[hidden] { display: none; }
+  .gate .ac-item {
+    display: block; width: 100%; text-align: left; background: none; border: 0;
+    font: inherit; color: var(--ink); padding: 10px 13px; cursor: pointer;
+    border-bottom: 1px solid var(--line);
+  }
+  .gate .ac-item:last-child { border-bottom: 0; }
+  .gate .ac-item:hover, .gate .ac-item.ac-active { background: var(--accent-soft); color: var(--accent-ink); }
+  .gate .ac-item.ac-other { color: var(--muted); font-size: 13.5px; }
+
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -594,17 +610,17 @@ img { max-width: 100%; }
       },
       counterMinLabel: "Показывать счетчик скачиваний, начиная с числа (0 - не показывать)",
       gateTitle: "Пара вопросов перед скачиванием",
-      gateHint: "Это поможет нам понять, кто читает книгу. Имя, телефон и почту не спрашиваем.",
-      gateRegion: "Область или город",
-      gateCity: "Город или село",
-      gateCityPh: "начните набирать",
+      gateHint: "Это поможет нам понять, кому интересна и будет полезна книга. Имя, телефон и почту не спрашиваем.",
+      gateOther: "Другое",
+      gateCity: "Город",
+      gateCityPh: "начните набирать название",
       gateAge: "Возраст",
       gateField: "Сфера деятельности",
       gatePick: "Выберите",
       gateSend: "Скачать книгу",
       gateSkip: "Пропустить и скачать",
       regions: ["Астана", "Алматы", "Шымкент", "Абайская область", "Акмолинская область", "Актюбинская область", "Алматинская область", "Атырауская область", "Восточно-Казахстанская область", "Жамбылская область", "Жетысуская область", "Западно-Казахстанская область", "Карагандинская область", "Костанайская область", "Кызылординская область", "Мангистауская область", "Павлодарская область", "Северо-Казахстанская область", "Туркестанская область", "Улытауская область", "Я живу за пределами Казахстана"],
-      cities: ["Алматы", "Астана", "Шымкент", "Актобе", "Караганда", "Тараз", "Павлодар", "Усть-Каменогорск", "Семей", "Атырау", "Костанай", "Кызылорда", "Уральск", "Петропавловск", "Актау", "Темиртау", "Туркестан", "Кокшетау", "Талдыкорган", "Экибастуз", "Рудный", "Жезказган", "Жанаозен", "Балхаш", "Кентау", "Сатпаев", "Косшы", "Конаев", "Риддер", "Степногорск", "Щучинск", "Шахтинск", "Аксай", "Сарань", "Каскелен", "Арыс", "Шу", "Жаркент", "Текели", "Житикара", "Байконур", "Аральск", "Атбасар", "Аягоз", "Есик", "Каражал", "Каратау", "Курчатов", "Ленгер", "Сарыагаш", "Тайынша", "Талгар", "Ушарал", "Уштобе", "Хромтау", "Шалкар", "Шардара", "Шемонаиха", "Алтай", "Макинск", "Булаево", "Зайсан", "Кандыагаш", "Абай", "Шахтинск", "Лисаковск", "Аркалык", "Державинск", "Есиль", "Сергеевка", "Форт-Шевченко", "Эмба", "Темир", "Жетысай", "Ақсу", "Капшагай"],
+      cities: ["Алматы", "Астана", "Шымкент", "Актобе", "Караганда", "Тараз", "Павлодар", "Усть-Каменогорск", "Семей", "Атырау", "Костанай", "Кызылорда", "Уральск", "Петропавловск", "Актау", "Темиртау", "Туркестан", "Кокшетау", "Талдыкорган", "Экибастуз", "Рудный", "Жезказган", "Жанаозен", "Балхаш", "Кентау", "Сатпаев", "Косшы", "Конаев", "Риддер", "Степногорск", "Щучинск", "Шахтинск", "Аксай", "Сарань", "Каскелен", "Арыс", "Шу", "Жаркент", "Текели", "Житикара", "Байконур", "Аральск", "Атбасар", "Аягоз", "Есик", "Каражал", "Каратау", "Курчатов", "Ленгер", "Сарыагаш", "Тайынша", "Талгар", "Ушарал", "Уштобе", "Хромтау", "Шалкар", "Шардара", "Шемонаиха", "Алтай", "Макинск", "Булаево", "Зайсан", "Кандыагаш", "Абай", "Лисаковск", "Аркалык", "Державинск", "Есиль", "Сергеевка", "Форт-Шевченко", "Эмба", "Темир", "Жетысай", "Аксу"],
       ages: ["до 25", "25-34", "35-44", "45-54", "55-64", "65 и старше"],
       fields: ["Владелец бизнеса", "Самозанятый", "Наемный сотрудник в частной компании", "Госслужащий", "Бюджетная сфера: учитель, врач, культура", "Военнослужащий или силовые структуры", "Студент", "Домохозяйка или в декрете", "Пенсионер", "Временно не работаю", "Другое"],
       gateOn: "Спрашивать анкету перед скачиванием",
@@ -708,9 +724,9 @@ img { max-width: 100%; }
       downloadedTimes: function (n) { return "Кітапты <b>" + nfmt(n) + "</b> рет жүктеп алды"; },
       counterMinLabel: "Жүктеу санауышын қай саннан бастап көрсету (0 - көрсетпеу)",
       gateTitle: "Жүктеу алдында бірнеше сұрақ",
-      gateHint: "Бұл кітапты кім оқитынын түсінуге көмектеседі. Аты-жөні мен байланысты сұрамаймыз.",
-      gateRegion: "Облыс немесе қала",
-      gateCity: "Қала немесе ауыл",
+      gateHint: "Бұл кітап кімге қызықты әрі пайдалы болатынын түсінуге көмектеседі. Аты-жөні мен байланысты сұрамаймыз.",
+      gateOther: "Басқа",
+      gateCity: "Қала",
       gateCityPh: "теруді бастаңыз",
       gateAge: "Жасыңыз",
       gateField: "Қызмет саласы",
@@ -1200,27 +1216,103 @@ img { max-width: 100%; }
       "</div></div></section>";
   }
 
+  function captureGate(lang) {
+    if (!S.gate) return;
+    var L = T[lang] || t();
+    var c = document.getElementById("g-city"), a = document.getElementById("g-age"), f = document.getElementById("g-field");
+    if (c) { S.gate.city = c.value || ""; S.gate.cityIdx = L.cities.indexOf(S.gate.city); }
+    if (a) S.gate.ageIdx = L.ages.indexOf(a.value || "");
+    if (f) S.gate.fieldIdx = L.fields.indexOf(f.value || "");
+  }
+
   function renderGate() {
     var slot = document.getElementById("gate-slot"), L = t();
     if (!S.gate) { slot.innerHTML = ""; return; }
-    function opts(list) {
-      return '<option value="">' + esc(L.gatePick) + "</option>" +
-        list.map(function (x) { return '<option value="' + esc(x) + '">' + esc(x) + "</option>"; }).join("");
+    /* открытую анкету перерисовываем только при смене языка, иначе теряется набранное */
+    var cur = slot.querySelector(".gate");
+    if (cur) {
+      if (cur.getAttribute("data-lang") === S.lang) return;
+      captureGate(cur.getAttribute("data-lang"));
     }
-    slot.innerHTML = '<div class="gate-back" id="gate-back"><div class="gate" role="dialog" aria-modal="true">' +
+    function opts(list, sel) {
+      return '<option value="">' + esc(L.gatePick) + "</option>" +
+        list.map(function (x, i) {
+          return '<option value="' + esc(x) + '"' + (i === sel ? " selected" : "") + ">" + esc(x) + "</option>";
+        }).join("");
+    }
+    var cityVal = "";
+    if (S.gate.cityIdx >= 0) cityVal = L.cities[S.gate.cityIdx] || "";
+    else if (S.gate.city === T.ru.gateOther || S.gate.city === T.kk.gateOther) cityVal = L.gateOther;
+    else cityVal = S.gate.city || "";
+    slot.innerHTML = '<div class="gate-back" id="gate-back"><div class="gate" role="dialog" aria-modal="true" data-lang="' + esc(S.lang) + '">' +
       "<h2>" + esc(L.gateTitle) + "</h2>" +
       '<p class="hint">' + esc(L.gateHint) + "</p>" +
-      '<div class="field"><label for="g-region">' + esc(L.gateRegion) + '</label><select id="g-region">' + opts(L.regions) + "</select></div>" +
-      '<div class="field"><label for="g-city">' + esc(L.gateCity) + '</label>' +
-      '<input type="text" id="g-city" list="city-list" placeholder="' + esc(L.gateCityPh) + '" autocomplete="off">' +
-      '<datalist id="city-list">' + L.cities.map(function (c) { return '<option value="' + esc(c) + '"></option>'; }).join("") + "</datalist></div>" +
-      '<div class="field"><label for="g-age">' + esc(L.gateAge) + '</label><select id="g-age">' + opts(L.ages) + "</select></div>" +
-      '<div class="field"><label for="g-field">' + esc(L.gateField) + '</label><select id="g-field">' + opts(L.fields) + "</select></div>" +
+      '<div class="field ac-wrap"><label for="g-city">' + esc(L.gateCity) + '</label>' +
+      '<input type="text" id="g-city" value="' + esc(cityVal) + '" placeholder="' + esc(L.gateCityPh) + '" autocomplete="off" spellcheck="false">' +
+      '<div class="ac-list" id="g-city-list" hidden></div></div>' +
+      '<div class="field"><label for="g-age">' + esc(L.gateAge) + '</label><select id="g-age">' + opts(L.ages, S.gate.ageIdx) + "</select></div>" +
+      '<div class="field"><label for="g-field">' + esc(L.gateField) + '</label><select id="g-field">' + opts(L.fields, S.gate.fieldIdx) + "</select></div>" +
       '<div class="acts"><button type="button" class="cta" id="g-send">' + esc(L.gateSend) + "</button>" +
       '<button type="button" class="skip" id="g-skip">' + esc(L.gateSkip) + "</button></div>" +
       "</div></div>";
-    var c = document.getElementById("g-city");
-    if (c) c.focus();
+  }
+
+  /* ---- подсказки городов ---- */
+  function foldCity(x) {
+    return String(x).toLowerCase()
+      .replace(/[\u04D9]/g, "а").replace(/[\u04E9]/g, "о").replace(/[\u04B1\u04AF]/g, "у")
+      .replace(/[\u049B]/g, "к").replace(/[\u04A3]/g, "н").replace(/[\u04BB]/g, "х")
+      .replace(/[\u0456]/g, "и").replace(/[\u0493]/g, "г").replace(/\u0451/g, "е");
+  }
+
+  function cityMatches(q) {
+    var L = t(), f = foldCity(q).trim(), starts = [], inside = [];
+    if (!f) return L.cities.slice(0, 8);
+    L.cities.forEach(function (c) {
+      var fc = foldCity(c);
+      if (fc.indexOf(f) === 0) starts.push(c);
+      else if (fc.indexOf(f) > 0) inside.push(c);
+    });
+    return starts.concat(inside).slice(0, 8);
+  }
+
+  function renderCityList(q) {
+    var box = document.getElementById("g-city-list");
+    if (!box) return;
+    var L = t();
+    var html = '<button type="button" class="ac-item ac-other" data-city="' + esc(L.gateOther) + '">' +
+      esc(L.gateOther) + "</button>";
+    html += cityMatches(q || "").map(function (c) {
+      return '<button type="button" class="ac-item" data-city="' + esc(c) + '">' + esc(c) + "</button>";
+    }).join("");
+    box.innerHTML = html;
+    box.hidden = false;
+  }
+
+  function hideCityList() {
+    var box = document.getElementById("g-city-list");
+    if (box) { box.hidden = true; }
+  }
+
+  function pickCity(value) {
+    var inp = document.getElementById("g-city");
+    if (inp) { inp.value = value; inp.focus(); }
+    hideCityList();
+  }
+
+  function moveCityActive(step) {
+    var box = document.getElementById("g-city-list");
+    if (!box || box.hidden) return false;
+    var items = [].slice.call(box.querySelectorAll(".ac-item"));
+    if (!items.length) return false;
+    var i = items.indexOf(box.querySelector(".ac-active"));
+    i = i < 0 ? (step > 0 ? 0 : items.length - 1) : i + step;
+    if (i < 0) i = items.length - 1;
+    if (i >= items.length) i = 0;
+    items.forEach(function (x) { x.classList.remove("ac-active"); });
+    items[i].classList.add("ac-active");
+    if (items[i].scrollIntoView) items[i].scrollIntoView({ block: "nearest" });
+    return true;
   }
 
   function startDownload(url) {
@@ -1241,13 +1333,14 @@ img { max-width: 100%; }
         var i = (L[listName] || []).indexOf(value);
         return i >= 0 ? (T.ru[listName][i] || value) : value;
       }
-      var region = ru("regions", (document.getElementById("g-region") || {}).value || "");
       var city = ((document.getElementById("g-city") || {}).value || "").trim().slice(0, 60);
+      if (city === L.gateOther) city = T.ru.gateOther;
+      else city = ru("cities", city);
       var age = ru("ages", (document.getElementById("g-age") || {}).value || "");
       var fld = ru("fields", (document.getElementById("g-field") || {}).value || "");
-      if (region || city || age || fld) {
+      if (city || age || fld) {
         S.db.doc("readers/" + newId()).set({
-          region: region, city: city, age: age, field: fld, lang: S.lang,
+          city: city, age: age, field: fld, lang: S.lang,
           createdAt: new Date().toISOString()
         }).catch(function () {});
       }
@@ -1330,8 +1423,7 @@ img { max-width: 100%; }
     }
     return '<section class="admin"><h2>' + esc(L.readersTitle) + " · " + esc(L.readersCount(n)) + "</h2>" +
       '<div class="fields" style="grid-template-columns:1fr 1fr">' +
-      '<div><p class="langhead">' + esc(L.gateRegion) + '</p><div class="bars" style="margin-top:8px">' + top("region", 10) + "</div></div>" +
-      '<div><p class="langhead">' + esc(L.gateCity) + '</p><div class="bars" style="margin-top:8px">' + top("city", 10) + "</div></div>" +
+      '<div><p class="langhead">' + esc(L.gateCity) + '</p><div class="bars" style="margin-top:8px">' + top("city", 12) + "</div></div>" +
       '<div><p class="langhead">' + esc(L.gateField) + '</p><div class="bars" style="margin-top:8px">' + top("field", 8) + "</div></div>" +
       '<div class="full"><p class="langhead">' + esc(L.gateAge) + '</p><div class="bars" style="margin-top:8px">' + top("age", 8) + "</div></div>" +
       "</div>" +
@@ -1340,11 +1432,11 @@ img { max-width: 100%; }
 
   function exportReaders() {
     var L = t();
-    var rows = [["Дата", "Область или город", "Город или село", "Возраст", "Сфера деятельности", "Язык сайта"]];
+    var rows = [["Дата", "Город", "Возраст", "Сфера деятельности", "Язык сайта"]];
     S.readers.slice().sort(function (a, b) {
       return String(b.createdAt).localeCompare(String(a.createdAt));
     }).forEach(function (r) {
-      rows.push([when(r.createdAt), r.region || "", r.city || "", r.age || "", r.field || "", r.lang === "kk" ? "каз" : "рус"]);
+      rows.push([when(r.createdAt), r.city || r.region || "", r.age || "", r.field || "", r.lang === "kk" ? "каз" : "рус"]);
     });
     var csv = rows.map(function (row) {
       return row.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(";");
@@ -1430,7 +1522,7 @@ img { max-width: 100%; }
 
   /* ===================== события ===================== */
   document.addEventListener("click", function (e) {
-    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write,#annot-more,#g-send,#g-skip,#r-csv");
+    var el = e.target.closest("[data-lang],[data-open],[data-close],[data-reply],[data-quick],[data-rate],[data-hide],.ac-item,#open-form,#f-send,#f-cancel,#reply-send,#reply-cancel,#a-save,#l-in,#l-out,#btn-read,#btn-dl,#btn-dl2,#btn-write-top,#btn-write2,#head-write,#annot-more,#g-send,#g-skip,#r-csv");
     if (!el) return;
 
     if (el.dataset.lang) {
@@ -1481,11 +1573,12 @@ img { max-width: 100%; }
       try { asked = !!localStorage.getItem("bk-gate"); } catch (x) {}
       if (S.settings.gateOn && !asked && S.db) {
         e.preventDefault();
-        S.gate = { url: el.getAttribute("href") };
+        S.gate = { url: el.getAttribute("href"), city: "", cityIdx: -1, ageIdx: -1, fieldIdx: -1 };
         render();
       }
       return;
     }
+    if (el.classList.contains("ac-item")) return pickCity(el.getAttribute("data-city") || "");
     if (el.id === "r-csv") return exportReaders();
     if (el.id === "g-send") return gateDone(true);
     if (el.id === "g-skip") return gateDone(false);
@@ -1675,6 +1768,38 @@ img { max-width: 100%; }
     S.db.doc("settings/site").set(st).then(function () { toast(L.saved); })
       .catch(function () { toast(L.noAccess); });
   }
+
+  /* ---- поле города: подсказки с первой буквы ---- */
+  document.addEventListener("input", function (e) {
+    if (!e.target || e.target.id !== "g-city") return;
+    renderCityList(e.target.value || "");
+  });
+
+  document.addEventListener("focusin", function (e) {
+    if (!e.target) return;
+    if (e.target.id === "g-city") { renderCityList(e.target.value || ""); return; }
+    if (!e.target.closest || !e.target.closest("#g-city-list")) hideCityList();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (!e.target || e.target.id !== "g-city") return;
+    if (e.key === "ArrowDown") { if (moveCityActive(1)) e.preventDefault(); return; }
+    if (e.key === "ArrowUp") { if (moveCityActive(-1)) e.preventDefault(); return; }
+    if (e.key === "Escape") { hideCityList(); return; }
+    if (e.key === "Enter") {
+      var box = document.getElementById("g-city-list");
+      var act = box && !box.hidden ? box.querySelector(".ac-active") : null;
+      if (act) { e.preventDefault(); pickCity(act.getAttribute("data-city") || ""); }
+      else hideCityList();
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    var box = document.getElementById("g-city-list");
+    if (!box || box.hidden) return;
+    if (e.target && e.target.closest && e.target.closest("#g-city-list, #g-city")) return;
+    hideCityList();
+  }, true);
 
   /* логотип в шапке: показываем, только если файл есть */
   (function () {
